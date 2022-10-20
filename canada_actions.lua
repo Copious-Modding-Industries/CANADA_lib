@@ -3,7 +3,7 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 --- @class CanadaCard
 --- @operator call: CanadaCard
 --- @field cardId number
-local CanadaCard = {}
+CanadaCard = {}
 function CanadaCard:New(id)
     local o = {}
     local prop_types = {
