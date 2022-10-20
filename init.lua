@@ -4,7 +4,7 @@ return {
     init =
     --- ### Initializes Canada Lib, and sets up file paths.
     --- ***
-    --- @param path string The file path where `CANADA_lib/` is located, within the mods folder. Example path would be `mods/mods/copis_gun/CANADA_lib`
+    --- @param path string The file path where `CANADA_lib/` is located, within the mods folder. Example path would be `mods/copis_gun/CANADA_lib`
     function(path)
         path = path:gsub("/$", "") .. "/"
         local files = {
