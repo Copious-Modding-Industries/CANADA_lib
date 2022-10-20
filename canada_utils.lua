@@ -26,5 +26,4 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_recharge_while_shooting", recharge_while_shooting))
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format(display_script_path))
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format(controller_script_path))
-
 end

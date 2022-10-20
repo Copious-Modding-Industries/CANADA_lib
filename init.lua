@@ -8,7 +8,9 @@ return {
         local files = {
             "canada_utils.lua",
             "canada_lib.lua",
-            "canada_actions.lua"
+            "canada_actions.lua",
+            "canada_display.lua",
+            "canada_controller.lua"
         }
         for i, v in ipairs(files) do
             local m = ModTextFileGetContent(path .. v)
