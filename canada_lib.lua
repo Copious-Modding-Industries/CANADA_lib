@@ -42,23 +42,23 @@ end
 
 --- ### Adds a component to an entity file.
 --- ***
---- @param file_path string The path to the file you wish to add a component to
---- @param comp string The component you wish to add
---- ***
+--- @param file_path string The path to the file you wish to add a component to.
+--- @param comp string The component you wish to add.
 function ModEntityFileAddComponent(file_path, comp)
     local file_contents = ModTextFileGetContent(file_path)
     local contents = file_contents:gsub("</Entity>$", function() return comp .. "</Entity>" end)
     ModTextFileSetContent(file_path, contents)
 end
 
---- ### Creates the XML for a VariableStorageComponent
+--- ### Generates the XML for a VariableStorageComponent.
 --- ***
---- @param name string The name the VariableStorageComponent should be given
---- @param value string|number|boolean The value that should be stored
---- @return string
+--- @param name string The name the VariableStorageComponent should be given.
+--- @param value string|number|boolean The value that should be stored.
 --- ***
+--- @return string vsc The variable storage component which has been generated.
 function GenerateVSC(name, value)
     local ty
     if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "float" else ty = "string" end
-    return ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name, name, ty, tostring(value))
+    local vsc = ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name, name, ty, tostring(value))
+    return vsc
 end
