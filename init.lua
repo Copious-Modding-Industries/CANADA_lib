@@ -2,7 +2,8 @@ return {
     init = function(path)
         path = path:gsub("/$", "") .. "/"
         local files = {
-            "canada_util.lua",
+            "canada_utils.lua",
+            "canada_lib.lua",
             "canada_actions.lua"
         }
         for i, v in ipairs(files) do 

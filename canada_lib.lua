@@ -26,3 +26,11 @@ function GetSpells( wand )
         return spells, spells_ac
     end
 end
+
+--- @param file_contents string The contents of the file you wish to add a component to
+--- @param comp string The component you wish to add
+--- @return string edited_contents The contents of the file with the component applied
+function ModEntityFileAddComponent(file_contents, comp)
+    local contents = file_contents:gsub("</Entity>$", function() return comp .. "</Entity>" end)
+    return contents
+end

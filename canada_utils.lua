@@ -1,3 +1,5 @@
+
+--- Apply all needed components to a card entity file for minimal setup. Ideally, you should use this to minimize issues.
 --- @param card_entity_path string The file path of the card entity to modify
 --- @param recharge_time integer Number of frames until ammo is added
 --- @param capacity integer Maximum ammo card may have at once
@@ -14,7 +16,7 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     --- Handle nil card path
     if card_entity_path ~= nil then
 
-        --- Get card file contents
+        --- Add components to card file contents
         local card_file_contents = ModTextFileGetContent(card_entity_path)
 
         return true
