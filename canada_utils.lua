@@ -1,5 +1,5 @@
 
---- ### Apply all needed components to a card entity file for minimal setup. Ideally, you should use this to minimize issues from manually doing it.
+--- ### Apply all needed components to a card entity file for minimal setup. Ideally, you should use this when at all possible to minimize issues from manually doing it.
 --- ***
 --- @param card_entity_path string The file path of the card entity to modify.
 --- @param recharge_time integer Number of frames until ammo is added.

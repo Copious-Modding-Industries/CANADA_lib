@@ -1,3 +1,5 @@
+dofile_once("CANADA_PATHcanada_lib.lua")
+--- @module "CANADA_lib/canada_lib.lua"
 return {
     init =
     --- ### Initializes Canada Lib, and sets up file paths.

@@ -1,4 +1,6 @@
-dofile_once("CANADA_PATHcanada_util.lua")
+dofile_once("CANADA_PATHcanada_lib.lua")
+--- @module "CANADA_lib/canada_lib.lua"
+
 local CanadaCard = {}
 
 --- todo: what is this
