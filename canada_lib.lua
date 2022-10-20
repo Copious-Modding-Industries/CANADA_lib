@@ -27,10 +27,19 @@ function GetSpells( wand )
     end
 end
 
---- @param file_contents string The contents of the file you wish to add a component to
+--- @param file_path string The contents of the file you wish to add a component to
 --- @param comp string The component you wish to add
---- @return string edited_contents The contents of the file with the component applied
-function ModEntityFileAddComponent(file_contents, comp)
+function ModEntityFileAddComponent(file_path, comp)
+    local file_contents = ModTextFileGetContent(file_path)
     local contents = file_contents:gsub("</Entity>$", function() return comp .. "</Entity>" end)
-    return contents
+    ModTextFileSetContent(file_path, contents)
+end
+
+--- @param name string The name the VariableStorageComponent should be given
+--- @param value string|number|boolean The value that should be stored
+--- @return string
+function GenerateVSC(name, value)
+    local ty
+    if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "float" else ty = "string" end
+    return ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name, name, ty, tostring(value))
 end
