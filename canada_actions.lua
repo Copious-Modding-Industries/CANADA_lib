@@ -1,10 +1,9 @@
-dofile_once("CANADA_PATHcanada_util.lua")
-
+dofile_once("CANADA_PATHcanada_lib.lua")
+--- @module "canada_lib"
 --- @class CanadaCard
 --- @operator call: CanadaCard
 --- @field cardId number
 local CanadaCard = {}
-
 function CanadaCard:New(id)
     local o = {}
     local prop_types = {
@@ -73,24 +72,34 @@ end
 
 function CurrentCard(entity)
     local wand = GetWand(entity)
+    if wand == nil then return end
     local cards = GetSpells(wand)
+    if cards == nil then return end
     local me = hand[#hand]
     local mycard = cards[me.deck_index + 1]
     return mycard
 end
 
+--- ### Gets the ammo of the Canada Card.
+--- ***
+--- @return integer ammo The amount of ammo the card has. Returns 1 if the card has unlimited ammo. 
 function CanadaCard:GetAmmo()
+    local ammo = 0
     if IsActionUnlimited(GetUpdatedEntityID()) then
-        return 1
+        ammo = 1
     else
         local vsc = EntityGetFirstComponentIncludingDisabled(self.cardId, "VariableStorageComponent",
             "ammo_system_remaining");
         if vsc ~= nil then
-            return ComponentGetValue2(vsc, "value_int")
+            ammo = ComponentGetValue2(vsc, "value_int")
         end
     end
+    return ammo
 end
 
+--- ### Sets the ammo of the Canada Card.
+--- ***
+--- @param count integer The amount of ammo the card will have.
 function CanadaCard:SetAmmo(count)
     if IsActionUnlimited(GetUpdatedEntityID()) then
         return

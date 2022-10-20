@@ -1,5 +1,3 @@
-dofile_once("CANADA_PATHcanada_lib.lua")
-local game_has_init = false
 --- Apply all needed components to a card entity file for minimal setup. Ideally, you should use this to minimize issues.
 --- @param card_entity_path string The file path of the card entity to modify
 --- @param recharge_time integer Number of frames until ammo is added
@@ -11,7 +9,7 @@ local game_has_init = false
 --- @return boolean succeeded Wether card could successfully be modified
 function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial_ammo, recharge_while_shooting, controller_script_path, display_script_path)
     -- If the world has been initialised, then ModEntityFileAddComponent won't work
-    if game_has_init then
+    if ModTextFileSetContent == nil then
         error("RegisterCanadaAction: Actions can only be registered before world init", 2)
     end
     if card_entity_path == nil or recharge_time == nil or capacity == nil or initial_ammo == nil or recharge_while_shooting == nil then 
@@ -28,8 +26,4 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     ModEntityFileAddComponent(card_entity_path,
         GenerateVSC("ammo_system_recharge_while_shooting", recharge_while_shooting))
     return true
-end
-
-function OnMagicNumbersAndWorldSeedInitialized()
-    game_has_init = true
 end
