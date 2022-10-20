@@ -67,7 +67,14 @@ end
 --- @class CanadaCard
 --- @operator call: CanadaCard
 --- @field cardId number
+--- @field ammo number
+--- @field ammo_system_recharge_time integer
+--- @field ammo_system_capacity integer
+--- @field ammo_system_remaining integer
+--- @field ammo_system_recharge_while_shooting boolean
+--- @field ammo_system_locked boolean
 CanadaCard = {}
+
 function CanadaCard:New(id)
     local o = {}
     local prop_types = {
