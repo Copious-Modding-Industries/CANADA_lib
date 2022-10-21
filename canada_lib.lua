@@ -68,63 +68,37 @@ end
 --- @operator call: CanadaCard
 --- @field cardId number
 --- @field ammo number
---- @field ammo_system_recharge_time integer
---- @field ammo_system_capacity integer
---- @field ammo_system_remaining integer
---- @field ammo_system_recharge_while_shooting boolean
---- @field ammo_system_locked boolean
---- @field ammo_system_reload_on_empty boolean
+--- @field remaining number 
+--- @field recharge_time integer
+--- @field capacity integer
+--- @field recharge_while_shooting boolean
+--- @field locked boolean
+--- @field reload_on_empty boolean
 CanadaCard = {}
 
+--- @enum prop_types
+local prop_types = {
+    ammo = "int",
+    recharge_time = "int",
+    capacity = "int",
+    remaining = "int",
+    recharge_while_shooting = "bool",
+    locked = "bool",
+    reload_on_empty = "bool"
+}
+
 function CanadaCard:New(id)
+    --- @type CanadaCard
     local o = {}
-    local prop_types = {
-        ammo_system_recharge_time = "int",
-        ammo_system_capacity = "int",
-        ammo_system_remaining = "int",
-        ammo_system_recharge_while_shooting = "bool",
-        ammo_system_locked = "bool",
-        reload_on_empty = "bool"
-    }
     o.cardId = id
     setmetatable(o, {
-        __index = function(t, k)
-            if k == "ammo" then
-                return o:GetAmmo()
-            end
-            if prop_types[k] ~= nil then
-                local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
-                local comp
-                if vsc ~= nil then
-                    for _ = 1, #vsc do
-                        local v = vsc[_]
-                        if ComponentGetValue2(v, "name") == k then
-                            comp = v
-                        end
-                    end
-                    return ComponentGetValue2(comp, ("value_%s"):format(prop_types[k]))
-                end
-                return nil
-            end
+        __index = function(_, k)
+            local r = self:Getter(k)
+            if r ~= nil then return r end
             return CanadaCard[k]
         end,
-        __newindex = function(t, k, v)
-            if k == "ammo" then
-                return o:SetAmmo(v)
-            end
-            if prop_types[k] ~= nil then
-                local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
-                local comp
-                if vsc ~= nil then
-                    for _ = 1, #vsc do
-                        local val = vsc[_]
-                        if ComponentGetValue2(v, "name") == k then
-                            comp = val
-                        end
-                    end
-                    ComponentSetValue2(comp, ("value_%s"):format(prop_types[k]), v)
-                end
-            end
+        __newindex = function(_, k, v)
+            self:Setter(k, v)
         end,
     })
     return o
@@ -136,24 +110,41 @@ setmetatable(CanadaCard, {
     end
 })
 
---- ### Gets the ammo of the Canada Card.
---- ***
---- @return integer ammo The amount of ammo the card has.
-function CanadaCard:GetAmmo()
-    local ammo = 0
-    local vsc = EntityGetFirstComponentIncludingDisabled(self.cardId, "VariableStorageComponent", "ammo_system_remaining");
-    if vsc ~= nil then
-        ammo = ComponentGetValue2(vsc, "value_int")
+--- @param k string
+--- @return nil|number|boolean|string
+function CanadaCard:Getter(k)
+    if prop_types[k] ~= nil then
+        if k == "ammo" then k = "remaining" end
+        local vsc = EntityGetComponentIncludingDisabled(self.cardId, "VariableStorageComponent");
+        local comp
+        if vsc ~= nil then
+            for _ = 1, #vsc do
+                local v = vsc[_]
+                if ComponentGetValue2(v, "name") == "ammo_system_" .. k then
+                    comp = v
+                end
+            end
+            return ComponentGetValue2(comp, ("value_%s"):format(prop_types[k]))
+        end
     end
-    return ammo
 end
 
---- ### Sets the ammo of the Canada Card.
---- ***
---- @param count integer The amount of ammo the card will have.
-function CanadaCard:SetAmmo(count)
-    local vsc = EntityGetFirstComponentIncludingDisabled(self.cardId, "VariableStorageComponent", "ammo_system_remaining");
-    if vsc ~= nil then
-        ComponentSetValue2(vsc, "value_int", count)
+--- @param k string
+--- @param v number|boolean|string
+--- @return nil
+function CanadaCard:Setter(k, v)
+    if prop_types[k] ~= nil then
+        if k == "ammo" then k = "remaining" end
+        local vsc = EntityGetComponentIncludingDisabled(self.cardId, "VariableStorageComponent");
+        local comp
+        if vsc ~= nil then
+            for _ = 1, #vsc do
+                local val = vsc[_]
+                if ComponentGetValue2(val, "name") == "ammo_system_" .. k then
+                    comp = val
+                end
+            end
+            ComponentSetValue2(comp, ("value_%s"):format(prop_types[k]), v)
+        end
     end
 end

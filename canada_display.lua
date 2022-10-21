@@ -3,10 +3,10 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 
 local entity_id = GetUpdatedEntityID()
 local canada_card = CanadaCard(entity_id)
-local todisplay = canada_card.ammo_system_remaining
+local todisplay = canada_card.remaining
 local iter = tonumber(GlobalsGetValue("canada_lib_display_iter", "0"))
 
-local angle_dist = canada_card.ammo_system_remaining / canada_card.ammo_system_capacity * 160
+local angle_dist = canada_card.remaining / canada_card.capacity * 160
 local pos_dist = 12
 
 local wand = EntityGetParent(entity_id)
