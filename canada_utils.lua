@@ -6,7 +6,7 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 --- @param capacity integer Maximum ammo card may have at once
 --- @param initial_ammo integer Amount of ammo card will start with
 --- @param recharge_while_shooting boolean Wether card can gain ammo while shooting or not
---- @param reload_on_empty boolean
+--- @param reload_on_empty boolean Wether to use the reload on empty system, where the card only reloads when all ammo is expended. 
 --- @param enabled_in_inventory boolean? If the canada scripts should be enabled when the wand is not being held. Default is false
 --- @param controller_script_path? string Path to script used to control ammo, you likely do not want to mess with this unless you absolutely know what you're doing
 --- @param display_script_path? string Path to script used when displaying ammo count
