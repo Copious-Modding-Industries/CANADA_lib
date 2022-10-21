@@ -58,7 +58,7 @@ end
 --- @return string vsc The variable storage component which has been generated.
 function GenerateVSC(name, value)
     local ty
-    if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "float" else ty = "string" end
+    if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "int" else ty = "string" end
     local vsc = ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name, name, ty, tostring(value))
     return vsc
 end
@@ -88,7 +88,7 @@ function CanadaCard:New(id)
     setmetatable(o, {
         __index = function(t, k)
             if k == "ammo" then
-                return self:GetAmmo()
+                return o:GetAmmo()
             end
             if prop_types[k] ~= nil then
                 local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
@@ -104,11 +104,11 @@ function CanadaCard:New(id)
                 end
                 return nil
             end
-            return self[k]
+            return CanadaCard[k]
         end,
         __newindex = function(t, k, v)
             if k == "ammo" then
-                return self:SetAmmo(v)
+                return o:SetAmmo(v)
             end
             if prop_types[k] ~= nil then
                 local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
