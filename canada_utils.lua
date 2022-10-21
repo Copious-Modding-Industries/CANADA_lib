@@ -35,3 +35,11 @@ function CanadaGuiPostUpdate()
     GlobalsSetValue("canada_lib_display_iter", "0")
     GlobalsSetValue("canada_lib_display_iter_tl", "0")
 end
+
+--- ### Print a file path's contents
+--- ***
+--- @param file_path string The file path to print
+function DebugModTextFilePrint(file_path)
+    local contents = ModTextFileGetContent(file_path)
+    print(contents)
+end
