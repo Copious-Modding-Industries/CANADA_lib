@@ -73,6 +73,7 @@ end
 --- @field ammo_system_remaining integer
 --- @field ammo_system_recharge_while_shooting boolean
 --- @field ammo_system_locked boolean
+--- @field ammo_system_reload_on_empty boolean
 CanadaCard = {}
 
 function CanadaCard:New(id)
@@ -82,7 +83,8 @@ function CanadaCard:New(id)
         ammo_system_capacity = "int",
         ammo_system_remaining = "int",
         ammo_system_recharge_while_shooting = "bool",
-        ammo_system_locked = "bool"
+        ammo_system_locked = "bool",
+        reload_on_empty = "bool"
     }
     o.cardId = id
     setmetatable(o, {
