@@ -1,3 +1,4 @@
+dofile_once("CANADA_PATHcanada_lib.lua")
 --- ### Apply all needed components to a card entity file for minimal setup. Ideally, you should use this to minimize issues.
 --- ***
 --- @param card_entity_path string The file path of the card entity to modify
