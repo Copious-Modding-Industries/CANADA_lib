@@ -29,3 +29,8 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format(display_script_path))
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent _tags="%s" execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format((enabled_in_inventory and "" or "enabled_in_hand"), controller_script_path))
 end
+
+function CanadaGuiPostUpdate()
+    GlobalsSetValue("canada_lib_display_iter", "0")
+    GlobalsSetValue("canada_lib_display_iter_tl", "0")
+end

@@ -6,7 +6,7 @@ local recharge = true
 
 -- Don't recharge while shooting attribute
 if canada_card.ammo_system_recharge_while_shooting ~= true then
-    local shooterControls = EntityGetComponent(EntityGetRootEntity(GetUpdatedEntityID()), "ControlsComponent")
+    local shooterControls = EntityGetFirstComponent(EntityGetRootEntity(GetUpdatedEntityID()), "ControlsComponent")
     if shooterControls then
         if ComponentGetValue2(shooterControls, "mButtonDownFire") then
             recharge = false
