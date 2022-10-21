@@ -3,7 +3,31 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 
 local canada_card = CanadaCard(GetUpdatedEntityID())
 
-if canada_card.reload_on_empty then
+if canada_card.ammo_system_reload_on_empty then
+    -- enter lock state
+    if canada_card.ammo_system_remaining == 0 then
+        canada_card.ammo_system_locked = true
+    end
+
+    -- locked handler
+    if canada_card.ammo_system_locked then
+        -- lock wand
+        local parent = EntityGetParent(GetUpdatedEntityID())
+        local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
+        if ability_comp ~= nil then
+            ComponentSetValue2( ability_comp, "mNextFrameUsable", GameGetFrameNum() + 1 )
+        end
+        -- add ammo
+        if GameGetFrameNum() % canada_card.ammo_system_recharge_time == 0 then
+            canada_card.ammo_system_remaining = math.min(canada_card.ammo_system_remaining + 1, canada_card.ammo_system_capacity)
+        end
+        -- end lock state
+        if canada_card.ammo_system_remaining == canada_card.ammo_system_capacity then
+            canada_card.ammo_system_locked = false
+            GlobalsSetValue("canada_lib_reload_frame", tostring(GameGetFrameNum()))
+        end
+    end
+else
     -- Auto ammo regen mode
     local recharge = true
 
@@ -27,28 +51,4 @@ if canada_card.reload_on_empty then
         canada_card.ammo_system_remaining = math.min(canada_card.ammo_system_remaining + 1, canada_card.ammo_system_capacity)
     end
 
-else
-    -- enter lock state
-    if canada_card.ammo_system_remaining == 0 then
-        canada_card.ammo_system_locked = true
-    end
-
-    -- locked handler
-    if canada_card.ammo_system_locked then
-        -- lock wand
-        local parent = EntityGetParent(GetUpdatedEntityID())
-        local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
-        if ability_comp ~= nil then
-            ComponentSetValue2( ability_comp, "mNextFrameUsable", GameGetFrameNum() + 1 )
-        end
-        -- add ammo
-        if GameGetFrameNum() % canada_card.ammo_system_recharge_time == 0 then
-            canada_card.ammo_system_remaining = math.min(canada_card.ammo_system_remaining + 1, canada_card.ammo_system_capacity)
-        end
-        -- end lock state
-        if canada_card.ammo_system_remaining == canada_card.ammo_system_capacity then
-            canada_card.ammo_system_locked = false
-            GlobalsSetValue("camada_lib_reload_frame", tostring(GameGetFrameNum()))
-        end
-    end
 end
