@@ -17,7 +17,7 @@ local angle_delta = 160 / canada_card.capacity
 local controlscomp = EntityGetFirstComponent(EntityGetRootEntity(entity_id), "ControlsComponent")
 if controlscomp ~= nil then
     local mouse_x, mouse_y = ComponentGetValue2(controlscomp, "mMousePosition");
-
+    --[[
     -- twin linked stuff
     if ("arm_l" == EntityGetName(shooter)) then
         angle.min = 190
@@ -27,7 +27,7 @@ if controlscomp ~= nil then
     else
         GlobalsSetValue("canada_lib_display_iter", tostring(iter + 1))
     end
-
+]]
     while (todisplay > 0) do
         GameCreateSpriteForXFrames("CANADA_PATHcanada_gfx/ammo_fill.png",
             mouse_x + (pos_dist * math.cos(angle.min + angle_delta * todisplay)),
