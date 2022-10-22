@@ -58,7 +58,7 @@ end
 function GenerateVSC(name, value)
     local ty
     if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "int" else ty = "string" end
-    local vsc = ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name,
+    local vsc = ('<VariableStorageComponent _tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name,
         name, ty, tostring(value))
     return vsc
 end
@@ -91,19 +91,16 @@ function CanadaCard(id)
     --- @param k string
     --- @return nil|number|boolean|string
     local function getter(k)
-        print(("Getting %s - %s"):format(k, prop_types[k]))
         if prop_types[k] ~= nil then
             if k == "ammo" then k = "remaining" end
             local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
-            local comp
             if vsc ~= nil then
                 for _ = 1, #vsc do
                     local v = vsc[_]
                     if ComponentGetValue2(v, "name") == "ammo_system_" .. k then
-                        comp = v
+                        return ComponentGetValue2(v, ("value_%s"):format(prop_types[k]))
                     end
                 end
-                return ComponentGetValue2(comp, ("value_%s"):format(prop_types[k]))
             end
         end
     end
@@ -112,19 +109,18 @@ function CanadaCard(id)
     --- @param v number|boolean|string
     --- @return nil
     local function setter(k, v)
-        print(("Setting %s, %s - %s"):format(k, tostring(v), prop_types[k]))
         if prop_types[k] ~= nil then
             if k == "ammo" then k = "remaining" end
             local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
-            local comp
             if vsc ~= nil then
                 for _ = 1, #vsc do
                     local val = vsc[_]
                     if ComponentGetValue2(val, "name") == "ammo_system_" .. k then
-                        comp = val
+                        ComponentSetValue2(val, ("value_%s"):format(prop_types[k]), v)
+                        return
                     end
                 end
-                ComponentSetValue2(comp, ("value_%s"):format(prop_types[k]), v)
+                
             end
         end
     end
