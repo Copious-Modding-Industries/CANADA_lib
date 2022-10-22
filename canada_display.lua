@@ -9,7 +9,7 @@ local todisplay = canada_card.remaining
 
 local iter = tonumber(GlobalsGetValue("canada_lib_display_iter", "0"))
 local iter_tl = tonumber(GlobalsGetValue("canada_lib_display_iter_tl", "0"))
-local pos_dist = 12 + iter * 5
+local pos_dist = iter * 5
 
 local angle = { min = 10, max = 170 }
 local angle_delta = 160 / canada_card.capacity
