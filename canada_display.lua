@@ -28,8 +28,8 @@ if controlscomp ~= nil then
     end
     while (todisplay > 0) do
         GameCreateSpriteForXFrames("CANADA_PATHcanada_gfx/ammo_fill.png",
-            mouse_x + (pos_dist * math.cos(angle.min + (angle_delta * todisplay))),
-            mouse_y + (pos_dist * math.sin(angle.min + (angle_delta * todisplay))),
+            mouse_x + (pos_dist * math.cos(math.rad(angle.min + (angle_delta * todisplay)))),
+            mouse_y + (pos_dist * math.sin(math.rad(angle.min + (angle_delta * todisplay)))),
             true, 0, 0, 1, true)
 
         todisplay = todisplay - 1
