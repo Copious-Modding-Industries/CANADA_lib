@@ -1,10 +1,9 @@
-
 --- ### Returns the *Entity ID* of the wand a creature is currently holding.
 --- ***
 --- @param entity integer The *Entity ID* of the creature holding the wand.
 --- ***
 --- @return integer|nil wand_id The *Entity ID* of the held wand, or nil if no wand is held.
-function GetWand( entity )
+function GetWand(entity)
     local inv2_comp = EntityGetFirstComponentIncludingDisabled(entity, "Inventory2Component")
     if inv2_comp ~= nil then
         local wand_id = ComponentGetValue2(inv2_comp, "mActiveItem")
@@ -12,13 +11,13 @@ function GetWand( entity )
     end
 end
 
---- ### Returns two tables of *Entity IDs* corresponding to all spells on a wand, and the always cast spells. 
+--- ### Returns two tables of *Entity IDs* corresponding to all spells on a wand, and the always cast spells.
 --- ***
 --- @param wand integer The *Entity ID* of the wand
 --- ***
 --- @return table|nil spells The table of spells on the wand, or nil if no wand is held.
 --- @return table|nil spells_ac The table of always cast spells on the wand, or nil if no wand is held.
-function GetSpells( wand )
+function GetSpells(wand)
     if wand ~= nil then
         local children = EntityGetAllChildren(wand)
         local spells = {}
@@ -59,22 +58,11 @@ end
 function GenerateVSC(name, value)
     local ty
     if type(value) == "boolean" then ty = "bool" elseif type(value) == "number" then ty = "int" else ty = "string" end
-    local vsc = ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name, name, ty, tostring(value))
+    local vsc = ('<VariableStorageComponent tags="%s" name="%s" value_%s="%s"></VariableStorageComponent>'):format(name,
+        name, ty, tostring(value))
     return vsc
 end
 
---- ### Metatable for Canada Card.
---- @class CanadaCard
---- @operator call: CanadaCard
---- @field cardId number
---- @field ammo number
---- @field remaining number 
---- @field recharge_time integer
---- @field capacity integer
---- @field recharge_while_shooting boolean
---- @field locked boolean
---- @field reload_on_empty boolean
-CanadaCard = {}
 
 --- @enum prop_types
 local prop_types = {
@@ -87,64 +75,68 @@ local prop_types = {
     reload_on_empty = "bool"
 }
 
-function CanadaCard:New(id)
-    --- @type CanadaCard
+--- ### Metatable for Canada Card.
+--- @class CanadaCard
+--- @field cardId number
+--- @field ammo number
+--- @field remaining number
+--- @field recharge_time integer
+--- @field capacity integer
+--- @field recharge_while_shooting boolean
+--- @field locked boolean
+--- @field reload_on_empty boolean
+--- @param id integer
+--- @return CanadaCard
+function CanadaCard(id)
+    --- @param k string
+    --- @return nil|number|boolean|string
+    local function getter(k)
+        print(("Getting %s - %s"):format(k, prop_types[k]))
+        if prop_types[k] ~= nil then
+            if k == "ammo" then k = "remaining" end
+            local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
+            local comp
+            if vsc ~= nil then
+                for _ = 1, #vsc do
+                    local v = vsc[_]
+                    if ComponentGetValue2(v, "name") == "ammo_system_" .. k then
+                        comp = v
+                    end
+                end
+                return ComponentGetValue2(comp, ("value_%s"):format(prop_types[k]))
+            end
+        end
+    end
+
+    --- @param k string
+    --- @param v number|boolean|string
+    --- @return nil
+    local function setter(k, v)
+        print(("Setting %s, %s - %s"):format(k, tostring(v), prop_types[k]))
+        if prop_types[k] ~= nil then
+            if k == "ammo" then k = "remaining" end
+            local vsc = EntityGetComponentIncludingDisabled(id, "VariableStorageComponent");
+            local comp
+            if vsc ~= nil then
+                for _ = 1, #vsc do
+                    local val = vsc[_]
+                    if ComponentGetValue2(val, "name") == "ammo_system_" .. k then
+                        comp = val
+                    end
+                end
+                ComponentSetValue2(comp, ("value_%s"):format(prop_types[k]), v)
+            end
+        end
+    end
+
     local o = {}
-    o.cardId = id
     setmetatable(o, {
         __index = function(_, k)
-            local r = self:Getter(k)
-            if r ~= nil then return r end
-            return CanadaCard[k]
+            return getter(k)
         end,
         __newindex = function(_, k, v)
-            self:Setter(k, v)
+            setter(k, v)
         end,
     })
     return o
-end
-
-setmetatable(CanadaCard, {
-    __call = function(id)
-        return CanadaCard:New(id)
-    end
-})
-
---- @param k string
---- @return nil|number|boolean|string
-function CanadaCard:Getter(k)
-    if prop_types[k] ~= nil then
-        if k == "ammo" then k = "remaining" end
-        local vsc = EntityGetComponentIncludingDisabled(self.cardId, "VariableStorageComponent");
-        local comp
-        if vsc ~= nil then
-            for _ = 1, #vsc do
-                local v = vsc[_]
-                if ComponentGetValue2(v, "name") == "ammo_system_" .. k then
-                    comp = v
-                end
-            end
-            return ComponentGetValue2(comp, ("value_%s"):format(prop_types[k]))
-        end
-    end
-end
-
---- @param k string
---- @param v number|boolean|string
---- @return nil
-function CanadaCard:Setter(k, v)
-    if prop_types[k] ~= nil then
-        if k == "ammo" then k = "remaining" end
-        local vsc = EntityGetComponentIncludingDisabled(self.cardId, "VariableStorageComponent");
-        local comp
-        if vsc ~= nil then
-            for _ = 1, #vsc do
-                local val = vsc[_]
-                if ComponentGetValue2(val, "name") == "ammo_system_" .. k then
-                    comp = val
-                end
-            end
-            ComponentSetValue2(comp, ("value_%s"):format(prop_types[k]), v)
-        end
-    end
 end
