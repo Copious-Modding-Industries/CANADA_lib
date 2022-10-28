@@ -2,5 +2,8 @@
     "Lua.diagnostics.globals": [
         "hand",
         "dofile_once"
+    ],
+    "Lua.diagnostics.disable": [
+        "lowercase-global"
     ]
 }
