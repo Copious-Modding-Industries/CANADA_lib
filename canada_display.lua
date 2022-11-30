@@ -7,7 +7,7 @@ local canada_card = CanadaCard(entity_id)
 local shooter = EntityGetParent(EntityGetParent(entity_id))
 local iter = tonumber(GlobalsGetValue("canada_lib_display_iter", "0"))
 local iter_tl = tonumber(GlobalsGetValue("canada_lib_display_iter_tl", "0"))
-local pos_dist = 2 + iter * 5
+local pos_dist = 2 + iter * 12
 _id = 0
 local getID = function ()
     _id = _id + 1
@@ -31,8 +31,10 @@ if controlscomp ~= nil then
         GlobalsSetValue("canada_lib_display_iter", tostring(iter + 1))
     end
     while (todisplay > 0) do
-        GuiImage(gui, getID(), mouse_x + (pos_dist * math.cos(math.rad(angle.min + (angle_delta * todisplay)))),
-        mouse_y + (pos_dist * math.sin(math.rad(angle.min + (angle_delta * todisplay)))), "CANADA_PATHcanada_gfx/ammo_fill.png", 1, 1, 0, 0)
+        GuiImage(gui, getID(),
+            mouse_x + (pos_dist * math.cos(math.rad(angle.min + (angle_delta * todisplay)))),
+            mouse_y + (pos_dist * math.sin(math.rad(angle.min + (angle_delta * todisplay)))),
+            "CANADA_PATHcanada_gfx/ammo_fill.png", 1, 1, 1, angle_delta)
         todisplay = todisplay - 1
     end
 end
