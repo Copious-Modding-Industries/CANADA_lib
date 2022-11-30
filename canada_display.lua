@@ -1,4 +1,3 @@
-
 dofile_once("CANADA_PATHcanada_lib.lua")
 
 gui = gui or GuiCreate()
@@ -17,6 +16,7 @@ end
 
 local angle = { min = 10, max = 170 }
 local angle_delta = 160 / canada_card.capacity
+local todisplay = canada_card.remaining
 
 local controlscomp = EntityGetFirstComponent(EntityGetRootEntity(entity_id), "ControlsComponent")
 if controlscomp ~= nil then
