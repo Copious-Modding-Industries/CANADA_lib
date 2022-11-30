@@ -36,3 +36,4 @@ if controlscomp ~= nil then
         todisplay = todisplay - 1
     end
 end
+GamePrint(tostring(canada_card.remaining))

@@ -9,7 +9,7 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 --- @param reload_on_empty boolean Wether to use the reload on empty system, where the card only reloads when all ammo is expended. 
 --- @param enabled_in_inventory boolean? If the canada scripts should be enabled when the wand is not being held. Default is false
 --- @param controller_script_path string? Path to script used to control ammo, you likely do not want to mess with this unless you absolutely know what you're doing
---- @param display_script_path string? Path to script used to control ammo, you likely do not want to mess with this unless you absolutely know what you're doing
+--- @param display_script_path string? Path to script used to display ammo, you likely do not want to mess with this unless you absolutely know what you're doing
 function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial_ammo, recharge_while_shooting, reload_on_empty, enabled_in_inventory, controller_script_path, display_script_path)
     -- If the world has been initialised, then ModEntityFileAddComponent won't work
     if ModTextFileSetContent == nil then
