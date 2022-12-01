@@ -7,7 +7,6 @@ if canada_card.reload_on_empty then
 
     -- enter lock state
     if canada_card.remaining == 0 then
-        print(tostring(canada_card.reloading))
         if not canada_card.reloading then
 
             -- enter lock state
