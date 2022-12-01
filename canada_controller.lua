@@ -15,7 +15,7 @@ if canada_card.reload_on_empty then
         else
 
             -- end lock state
-            if GameGetFrameNum() == canada_card.reload_end_frame then
+            if GameGetFrameNum() >= canada_card.reload_end_frame then
                 canada_card.remaining = canada_card.capacity
                 canada_card.reloading = false
                 GlobalsSetValue("canada_lib_reload_frame", tostring(GameGetFrameNum()))
