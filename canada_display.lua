@@ -17,10 +17,16 @@ end
 local angle = { min = 10, max = 170 }
 local angle_delta = 160 / canada_card.capacity
 local todisplay = canada_card.remaining
-
 local controlscomp = EntityGetFirstComponent(EntityGetRootEntity(entity_id), "ControlsComponent")
 if controlscomp ~= nil then
-    local mouse_x, mouse_y = ComponentGetValue2(controlscomp, "mMousePosition");
+    local mx, my = ComponentGetValue2(controlscomp, "mMousePosition")
+    local screen_w, screen_h = GuiGetScreenDimensions(gui)
+    local cx, cy = GameGetCameraPos()
+    local vx = MagicNumbersGetValue("VIRTUAL_RESOLUTION_X")
+    local vy = MagicNumbersGetValue("VIRTUAL_RESOLUTION_Y")
+    local gmx = ((mx - cx) * screen_w / vx + screen_w / 2)
+    local gmy = ((my - cy) * screen_h / vy + screen_h / 2)
+    local mouse_x, mouse_y = math.floor(gmx), math.floor(gmy)
     -- twin linked stuff
     if ("arm_l" == EntityGetName(shooter)) then
         angle.min = 190
