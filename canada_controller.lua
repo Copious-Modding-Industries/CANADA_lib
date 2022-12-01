@@ -15,7 +15,7 @@ if canada_card.reload_on_empty then
         local parent = EntityGetParent(GetUpdatedEntityID())
         local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
         if ability_comp ~= nil then
-            ComponentSetValue2( ability_comp, "mNextFrameUsable", GameGetFrameNum() + 1 )
+            ComponentSetValue2( ability_comp, "mNextFrameUsable", GameGetFrameNum() + 25 )
         end
         -- add ammo
         if GameGetFrameNum() % canada_card.recharge_time == 0 then
