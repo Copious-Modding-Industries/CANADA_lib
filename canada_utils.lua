@@ -27,6 +27,7 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_remaining", initial_ammo))
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_recharge_while_shooting", recharge_while_shooting))
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_reload_on_empty", reload_on_empty))
+    ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_reloading", false))
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent _tags="%s" execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format((enabled_in_inventory and "enabled_in_inventory" or "enabled_in_hand"), controller_script_path))
 end
 

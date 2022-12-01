@@ -72,7 +72,8 @@ local prop_types = {
     remaining = "int",
     recharge_while_shooting = "bool",
     locked = "bool",
-    reload_on_empty = "bool"
+    reload_on_empty = "bool",
+    reloading = "bool"
 }
 
 --- ### Metatable for Canada Card.
@@ -84,6 +85,7 @@ local prop_types = {
 --- @field capacity integer
 --- @field recharge_while_shooting boolean
 --- @field locked boolean
+--- @field reloading boolean
 --- @field reload_on_empty boolean
 --- @param id integer
 --- @return CanadaCard
