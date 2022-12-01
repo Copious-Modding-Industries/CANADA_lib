@@ -74,7 +74,9 @@ local prop_types = {
     locked = "bool",
     reload_on_empty = "bool",
     reloading = "bool",
-    reload_end_frame = "int"
+    reload_end_frame = "int",
+    reload_audio_bank = "string",
+    reload_audio_event = "string",
 }
 
 --- ### Metatable for Canada Card.
@@ -89,6 +91,8 @@ local prop_types = {
 --- @field reloading boolean
 --- @field reload_end_frame integer
 --- @field reload_on_empty boolean
+--- @field reload_audio_bank string
+--- @field reload_audio_event string
 --- @param id integer
 --- @return CanadaCard
 function CanadaCard(id)
