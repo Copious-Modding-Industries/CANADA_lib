@@ -6,18 +6,19 @@ local canada_card = CanadaCard(GetUpdatedEntityID())
 if canada_card.reload_on_empty then
     -- enter lock state
     if canada_card.remaining == 0 then
-        if canada_card.reloading then
+        if not canada_card.reloading then
+            -- enter lock state
+            canada_card.reload_end_frame = GameGetFrameNum() + canada_card.recharge_time * canada_card.capacity
+            canada_card.reloading = true
+        else
             -- end lock state
             if GameGetFrameNum() == canada_card.reload_end_frame then
                 canada_card.remaining = canada_card.capacity
                 canada_card.reloading = false
                 GlobalsSetValue("canada_lib_reload_frame", tostring(GameGetFrameNum()))
             end
-        else
-            canada_card.reload_end_frame = GameGetFrameNum() + canada_card.recharge_time * canada_card.capacity
-            canada_card.reloading = true
         end
-        GamePrint(tostring(canada_card.reload_end_frame) .. " | " .. tostring(GameGetFrameNum()))
+        GamePrint(tostring(canada_card.reload_end_frame) .. " | " .. tostring(GameGetFrameNum()) .. " | " .. tostring(canada_card.remaining))
     end
 else
     -- Auto ammo regen mode
