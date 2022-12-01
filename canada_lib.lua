@@ -86,6 +86,7 @@ local prop_types = {
 --- @field recharge_while_shooting boolean
 --- @field locked boolean
 --- @field reloading boolean
+--- @field reload_end_frame integer
 --- @field reload_on_empty boolean
 --- @param id integer
 --- @return CanadaCard

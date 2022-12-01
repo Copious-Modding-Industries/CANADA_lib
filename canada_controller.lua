@@ -6,33 +6,15 @@ local canada_card = CanadaCard(GetUpdatedEntityID())
 if canada_card.reload_on_empty then
     -- enter lock state
     if canada_card.remaining == 0 then
-        local parent = EntityGetParent(GetUpdatedEntityID())
-        local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
-        if ability_comp ~= nil then
-            ComponentSetValue2( ability_comp, "click_to_use", false )
-        end
+        canada_card.reload_end_frame = GameGetFrameNum() + canada_card.recharge_time * canada_card.capacity
         canada_card.reloading = true
     end
 
-    -- locked handler
+    -- unlock handler
     if canada_card.reloading then
-        -- lock wand
-        local parent = EntityGetParent(GetUpdatedEntityID())
-        local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
-        if ability_comp ~= nil then
-            ComponentSetValue2( ability_comp, "mNextFrameUsable", GameGetFrameNum() + 5 )
-            ComponentSetValue2( ability_comp, "mReloadNextFrameUsable", GameGetFrameNum() + 5 )
-            ComponentSetValue2( ability_comp, "mReloadFramesLeft", 5 )
-        end
-        -- add ammo
-        if GameGetFrameNum() % canada_card.recharge_time == 0 then
-            canada_card.remaining = math.min(canada_card.remaining + 1, canada_card.capacity)
-        end
         -- end lock state
-        if canada_card.remaining == canada_card.capacity then
-            if ability_comp ~= nil then
-                ComponentSetValue2( ability_comp, "click_to_use", true )
-            end
+        if GameGetFrameNum() == canada_card.reload_end_frame then
+            canada_card.remaining = canada_card.capacity
             canada_card.reloading = false
             GlobalsSetValue("canada_lib_reload_frame", tostring(GameGetFrameNum()))
         end
