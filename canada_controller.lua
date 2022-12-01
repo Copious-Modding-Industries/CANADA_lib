@@ -6,11 +6,11 @@ local canada_card = CanadaCard(GetUpdatedEntityID())
 if canada_card.reload_on_empty then
     -- enter lock state
     if canada_card.remaining == 0 then
-        canada_card.locked = true
+        canada_card.reloading = true
     end
 
     -- locked handler
-    if canada_card.locked then
+    if canada_card.reloading then
         -- lock wand
         local parent = EntityGetParent(GetUpdatedEntityID())
         local ability_comp = EntityGetFirstComponent(parent, "AbilityComponent" )
@@ -23,7 +23,7 @@ if canada_card.reload_on_empty then
         end
         -- end lock state
         if canada_card.remaining == canada_card.capacity then
-            canada_card.locked = false
+            canada_card.reloading = false
             GlobalsSetValue("canada_lib_reload_frame", tostring(GameGetFrameNum()))
         end
     end
