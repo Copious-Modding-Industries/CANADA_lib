@@ -44,3 +44,6 @@ if controlscomp ~= nil then
         todisplay = todisplay - 1
     end
 end
+
+-- TEMP!! display ammo in chat until gus does his stuff
+GamePrint(tostring(canada_card.remaining) .. " | " .. canada_card.reloading and tostring(canada_card.reload_end_frame - GameGetFrameNum()) or "")
