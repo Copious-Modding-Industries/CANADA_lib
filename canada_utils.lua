@@ -8,8 +8,9 @@ dofile_once("CANADA_PATHcanada_lib.lua")
 --- @param recharge_while_shooting boolean Wether card can gain ammo while shooting or not
 --- @param reload_on_empty boolean Wether to use the reload on empty system, where the card only reloads when all ammo is expended. 
 --- @param enabled_in_inventory boolean? If the canada scripts should be enabled when the wand is not being held. Default is false
---- @param controller_script_path? string Path to script used to control ammo, you likely do not want to mess with this unless you absolutely know what you're doing
-function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial_ammo, recharge_while_shooting, reload_on_empty, enabled_in_inventory, controller_script_path)
+--- @param controller_script_path string? Path to script used to control ammo, you likely do not want to mess with this unless you absolutely know what you're doing
+--- @param display_script_path string? Path to script used to display ammo, you likely do not want to mess with this unless you absolutely know what you're doing
+function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial_ammo, recharge_while_shooting, reload_on_empty, enabled_in_inventory, controller_script_path, display_script_path)
     -- If the world has been initialised, then ModEntityFileAddComponent won't work
     if ModTextFileSetContent == nil then
         error("RegisterCanadaAction: Actions can only be registered before world init", 2)
@@ -20,6 +21,7 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     --- Default scripts
     enabled_in_inventory = enabled_in_inventory or false
     controller_script_path = controller_script_path or "CANADA_PATHcanada_controller.lua"
+    display_script_path = display_script_path or "CANADA_PATHcanada_display.lua"
 
     --- Add components to card file contents
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_recharge_time", recharge_time))
@@ -29,6 +31,7 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_reload_on_empty", reload_on_empty))
     ModEntityFileAddComponent(card_entity_path, GenerateVSC("ammo_system_reloading", false))
     ModEntityFileAddComponent(card_entity_path, ('<LuaComponent _tags="%s" execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format((enabled_in_inventory and "enabled_in_inventory" or "enabled_in_hand"), controller_script_path))
+    ModEntityFileAddComponent(card_entity_path, ('<LuaComponent _tags="enabled_in_hand" execute_every_n_frame="1" script_source_file="%s" ></LuaComponent>'):format(display_script_path))
 end
 
 function CanadaGuiPostUpdate()
