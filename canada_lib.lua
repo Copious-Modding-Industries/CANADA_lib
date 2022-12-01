@@ -73,7 +73,8 @@ local prop_types = {
     recharge_while_shooting = "bool",
     locked = "bool",
     reload_on_empty = "bool",
-    reloading = "bool"
+    reloading = "bool",
+    reload_end_frame = "int"
 }
 
 --- ### Metatable for Canada Card.
