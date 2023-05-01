@@ -42,8 +42,7 @@ function RegisterCanadaAction(card_entity_path, recharge_time, capacity, initial
 end
 
 function CanadaGuiPostUpdate()
-    GlobalsSetValue("canada_lib_display_iter", "0")
-    GlobalsSetValue("canada_lib_display_iter_tl", "0")
+    -- :( 
 end
 
 local _id = 0
